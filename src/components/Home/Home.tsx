@@ -28,7 +28,7 @@ export const Home: React.FC = () => {
       {
         method: "get",
         headers: new Headers({
-          "user-key": "823df82ef3d3814732a58a2d37b6886d",
+          "user-key": "key",
         }),
       }
     ).then(async (res) => {
