@@ -15,7 +15,12 @@ export const GameItem: React.FC<GameItemProps> = ({ games, loading }) => {
     <div className="games">
       {games.map((game: Games) => (
         <div className="game-item" key={game.id}>
-          <img src={game.cover.url.replace("t_thumb", "t_cover_big")} alt="" />
+          <a href={`/game/${game.id}`}>
+            <img
+              src={game.cover.url.replace("t_thumb", "t_cover_big")}
+              alt=""
+            />
+          </a>
         </div>
       ))}
     </div>
