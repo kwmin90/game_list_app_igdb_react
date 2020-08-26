@@ -1,5 +1,6 @@
 import React from "react";
-import { Search } from "../Search/Search";
+import { SearchBox } from "./SearchBox/SearchBox";
+import { Link } from "react-router-dom";
 import "./Header.css";
 
 export const Header: React.FC = () => {
@@ -7,12 +8,12 @@ export const Header: React.FC = () => {
     <nav>
       <ul>
         <li>
-          <a className="home" href="/">
+          <Link className="home" to="/">
             Game List App
-          </a>
+          </Link>
         </li>
-        <li className="search">
-          <Search />
+        <li className="search-box">
+          <SearchBox />
         </li>
       </ul>
     </nav>

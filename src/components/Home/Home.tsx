@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Games } from "../../models/Games";
-import { GameItem } from "../GameItem/GameItem";
+import { GameItem } from "./GameItem/GameItem";
 import { Pagination } from "../Pagination/Pagination";
 import "./Home.css";
 
@@ -50,7 +50,6 @@ export const Home: React.FC = () => {
       const response = await res.json();
       setGames(response);
       setLoading(false);
-      console.log(response);
     });
   }, []);
 
@@ -63,7 +62,7 @@ export const Home: React.FC = () => {
   };
   return (
     <div className="App">
-      <div className="container">
+      <div className="home-container">
         <GameItem games={currentGames} loading={loading} />
         <div className="pagination">
           <Pagination

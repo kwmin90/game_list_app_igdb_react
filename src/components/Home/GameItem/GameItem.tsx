@@ -1,5 +1,6 @@
 import React from "react";
-import { Games } from "../../models/Games";
+import { Games } from "../../../models/Games";
+import { Link } from "react-router-dom";
 import "./GameItem.css";
 
 interface GameItemProps {
@@ -15,12 +16,12 @@ export const GameItem: React.FC<GameItemProps> = ({ games, loading }) => {
     <div className="games">
       {games.map((game: Games) => (
         <div className="game-item" key={game.id}>
-          <a href={`/game/${game.id}`}>
+          <Link to={`/game/${game.id}`}>
             <img
               src={game.cover.url.replace("t_thumb", "t_cover_big")}
               alt=""
             />
-          </a>
+          </Link>
         </div>
       ))}
     </div>

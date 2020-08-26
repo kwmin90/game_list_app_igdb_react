@@ -13,7 +13,7 @@ export const Routes: React.FC = () => {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/game/:id" component={Game} />
-          <Route exact path="/search" component={Search} />
+          <Route exact path="/search/:query" component={Search} />
         </Switch>
       </div>
     </BrowserRouter>

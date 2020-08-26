@@ -36,9 +36,9 @@ export const Game: React.FC<GameProps> = ({ match }) => {
     return <h2>Loading...</h2>;
   }
   return (
-    <div className="container">
+    <div>
       {game.map((game: Games) => (
-        <div className="game-item" key={game.id}>
+        <div className="game-container" key={game.id}>
           <div className="game-image">
             <img
               src={game.cover.url.replace("t_thumb", "t_cover_big")}

@@ -1,5 +1,5 @@
-input[type="text"] {
-  padding: 10px;
-  width: 30vw;
-  margin: 5px;
+.search-container {
+  margin: auto;
+  width: 60vw;
+  background-color: white;
 }
