@@ -1,0 +1,14 @@
+.searched-games {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 10px;
+  max-width: 60vw;
+}
+
+.searched-game-image {
+  padding-top: 10px;
+  padding-left: 10px;
+}
+.searched-game-description {
+  padding-top: 10px;
+}

@@ -2,4 +2,5 @@
   margin: auto;
   width: 60vw;
   background-color: white;
+  min-width: 300px;
 }

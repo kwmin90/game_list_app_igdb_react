@@ -11,7 +11,7 @@ export const Search: React.FC<SearchProps> = ({ match }) => {
   const [games, setGames] = useState<Array<Games>>([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [gamesPerPage] = useState(5);
+  const [gamesPerPage] = useState(6);
 
   useEffect(() => {
     fetch(

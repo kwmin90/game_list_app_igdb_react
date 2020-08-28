@@ -29,7 +29,7 @@ export const Game: React.FC<GameProps> = ({ match }) => {
   const getNames = (field: Array<Object>) => {
     const names: string[] = [];
     field.map((x: any) => names.push(x.name));
-    return names.toString().replace(",", ", ");
+    return names.toString().replace(/,/g, ", ");
   };
 
   if (loading) {
