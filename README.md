@@ -1,7 +1,7 @@
-# game_list_app_igdb_react
+# Game List App
 
-Built using: React, react-router-dom
+Built using: React, react-router-dom, CSS Grid
 
-# Before running the app, make sure you get an api key from https://www.igdb.com/api and create a file called .env with value REACT_APP_USER_KEY = your_user-key
+# Before running the app, make sure you get an api key from https://www.igdb.com/api, then create a file called .env with value REACT_APP_USER_KEY = your_user-key
 
-I am trying to re-create my previous angular project using react and no bootstrap or IGDB API wrapper. I am practicing css grid.
+Recreated my previous Angular project with React without the help of Bootstrap or IGDB API wrapper. User can search their favorite games, and add it to the list to display in homr screen.
