@@ -9,49 +9,54 @@ export const Home: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [gamesPerPage] = useState(8);
+  const [defaultGames] = useState([
+    115,
+    114283,
+    1443,
+    76816,
+    40477,
+    26845,
+    24220,
+    7323,
+    37777,
+    1164,
+    9740,
+    9498,
+    11169,
+    2449,
+    359,
+    384,
+    389,
+    1121,
+    19441,
+    1520,
+    19131,
+    23441,
+    115989,
+    23865,
+  ]);
 
   useEffect(() => {
-    const defaultGames: number[] = [
-      115,
-      114283,
-      1443,
-      76816,
-      40477,
-      26845,
-      24220,
-      7323,
-      37777,
-      1164,
-      9740,
-      9498,
-      11169,
-      2449,
-      359,
-      384,
-      389,
-      1121,
-      19441,
-      1520,
-      19131,
-      23441,
-      115989,
-      23865,
-    ];
-    fetch(
-      `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com/games/${defaultGames}?fields=name,cover.url,summary,platforms.name,genres.name&limit=50`,
-      {
-        method: "get",
-        headers: new Headers({
-          "user-key": `${process.env.REACT_APP_USER_KEY}`,
-        }),
-      }
-    ).then(async (res) => {
-      setLoading(true);
-      const response = await res.json();
-      setGames(response);
-      setLoading(false);
-    });
-  }, []);
+    const list = localStorage.getItem("gameList");
+    if (!list) {
+      fetch(
+        `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com/games/${defaultGames}?fields=name,cover.url,summary,platforms.name,genres.name&limit=50`,
+        {
+          method: "get",
+          headers: new Headers({
+            "user-key": `${process.env.REACT_APP_USER_KEY}`,
+          }),
+        }
+      ).then(async (res) => {
+        setLoading(true);
+        const response = await res.json();
+        setGames(response);
+        setLoading(false);
+      });
+    } else {
+      setGames(JSON.parse(list));
+    }
+  }, [defaultGames]);
 
   const indexOfLastGame = currentPage * gamesPerPage;
   const indexOfFirstGame = indexOfLastGame - gamesPerPage;

@@ -6,3 +6,6 @@
   min-width: 300px;
   justify-items: center;
 }
+.game-item {
+  padding-top: 10px;
+}

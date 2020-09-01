@@ -32,6 +32,28 @@ export const Game: React.FC<GameProps> = ({ match }) => {
     return names.toString().replace(/,/g, ", ");
   };
 
+  const addToStorage = () => {
+    const list = localStorage.getItem("gameList");
+    if (!list) {
+      const gameList: any = [];
+      gameList.push({ ...game[0] });
+      console.log(gameList);
+      localStorage.setItem("gameList", JSON.stringify(gameList));
+    } else {
+      const gameList: any = JSON.parse(list);
+      let index: number = -1;
+      gameList.forEach((item: any, i: number) => {
+        if (item.id === game[0].id) {
+          index = i;
+        }
+      });
+      if (index === -1) {
+        gameList.push({ ...game[0] });
+        localStorage.setItem("gameList", JSON.stringify(gameList));
+      }
+    }
+  };
+
   if (loading) {
     return <h2>Loading...</h2>;
   }
@@ -61,6 +83,9 @@ export const Game: React.FC<GameProps> = ({ match }) => {
               <b>Summary: </b>
               <p>{game.summary}</p>
             </div>
+            <button className="game-add-button" onClick={addToStorage}>
+              Add
+            </button>
           </div>
         </div>
       ))}
