@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import "./Game.css";
 import { Games } from "../../models/Games";
+import axios from "axios";
 
 interface GameProps extends RouteComponentProps<{ id: string }> {}
 
@@ -10,17 +11,24 @@ export const Game: React.FC<GameProps> = ({ match }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch(
-      `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com/games/${match.params.id}?fields=name,cover.url,summary,platforms.name,genres.name`,
-      {
-        method: "get",
-        headers: new Headers({
-          "user-key": `${process.env.REACT_APP_USER_KEY}`,
-        }),
-      }
-    ).then(async (res) => {
+    const fetchGame = async () => {
+      const token = localStorage.getItem('accessToken')?.slice(1,-1);
+      const res = await axios({
+        url: `https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4/games/`,
+        method: 'POST',
+        headers: {
+          "Client-ID": `${process.env.REACT_APP_CLIENT_ID}`,
+          'Accept': 'application/json',
+          "Authorization": `Bearer ${token}`,
+        },
+        data: `fields name,cover.url,summary,platforms.name,genres.name;where id=(${match.params.id});`,
+      });
+      return res.data;
+    }
+    fetchGame()
+    .then(async (res) => {
       setLoading(true);
-      const response = await res.json();
+      const response = await res;
       setGame(response);
       setLoading(false);
     });

@@ -14,13 +14,16 @@ export const Search: React.FC<SearchProps> = ({ match }) => {
   const [gamesPerPage] = useState(6);
 
   useEffect(() => {
+    const token = localStorage.getItem('accessToken')?.slice(1,-1);
     fetch(
-      `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com/games/?search=${match.params.query}&fields=name,cover.url,summary,platforms.name,genres.name&limit=50`,
+      `https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4/games/?search=${match.params.query}&fields=name,cover.url,summary,platforms.name,genres.name&limit=50`,
       {
-        method: "get",
-        headers: new Headers({
-          "user-key": `${process.env.REACT_APP_USER_KEY}`,
-        }),
+        method: "POST",
+        headers: {
+          "Client-ID": `${process.env.REACT_APP_CLIENT_ID}`,
+          'Accept': 'application/json',
+          "Authorization": `Bearer ${token}`,
+        },
       }
     )
       .then(async (res) => {

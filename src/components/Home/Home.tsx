@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from 'axios';
 import { Games } from "../../models/Games";
 import { GameItem } from "./GameItem/GameItem";
 import { Pagination } from "../Pagination/Pagination";
@@ -35,21 +36,34 @@ export const Home: React.FC = () => {
     115989,
     23865,
   ]);
+  
 
   useEffect(() => {
+    const queryGames = async()=>{
+      const token = localStorage.getItem('accessToken')?.slice(1,-1);
+      const res = await axios({
+        url: 'https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4/games',
+        method: "POST",
+        headers: {
+          "Client-ID": `${process.env.REACT_APP_CLIENT_ID}`,
+          'Accept': 'application/json',
+          "Authorization": `Bearer ${token}`,
+        },
+        data: `fields name,cover.url,summary,platforms.name,genres.name;limit 50;where id=(${defaultGames});`,
+      }
+    )
+    return res.data;
+    }
+
     const list = localStorage.getItem("gameList");
-    if (!list) {
-      fetch(
-        `https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com/games/${defaultGames}?fields=name,cover.url,summary,platforms.name,genres.name&limit=50`,
-        {
-          method: "get",
-          headers: new Headers({
-            "user-key": `${process.env.REACT_APP_USER_KEY}`,
-          }),
-        }
-      ).then(async (res) => {
+    const accessToken = localStorage.getItem('accessToken');
+    if(!accessToken) getAccessToken();
+    if(!list) {
+      queryGames()
+      .then(async (res)=>{
+        console.log(res);
         setLoading(true);
-        const response = await res.json();
+        const response = await res;
         setGames(response);
         setLoading(false);
       });
@@ -57,6 +71,16 @@ export const Home: React.FC = () => {
       setGames(JSON.parse(list));
     }
   }, [defaultGames]);
+
+  const getAccessToken = () => {
+    fetch(`https://cors-anywhere.herokuapp.com/https://id.twitch.tv/oauth2/token?client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}&grant_type=client_credentials`,
+    {
+      method: "POST"
+    }).then(async (res)=>{
+      const data = await res.json();
+      localStorage.setItem('accessToken', JSON.stringify(data.access_token));
+    })
+  }
 
   const indexOfLastGame = currentPage * gamesPerPage;
   const indexOfFirstGame = indexOfLastGame - gamesPerPage;
