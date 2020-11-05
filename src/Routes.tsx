@@ -11,9 +11,9 @@ export const Routes: React.FC = () => {
       <div>
         <Header />
         <Switch>
-          <Route exact path="game_list_app_igdb_react/" component={Home} />
-          <Route exact path="game_list_app_igdb_react/game/:id" component={Game} />
-          <Route exact path="game_list_app_igdb_react/search/:query" component={Search} />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/game/:id" component={Game} />
+          <Route exact path="/search/:query" component={Search} />
         </Switch>
       </div>
     </BrowserRouter>
