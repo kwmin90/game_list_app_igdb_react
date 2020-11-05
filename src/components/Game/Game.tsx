@@ -45,7 +45,6 @@ export const Game: React.FC<GameProps> = ({ match }) => {
     if (!list) {
       const gameList: any = [];
       gameList.push({ ...game[0] });
-      console.log(gameList);
       localStorage.setItem("gameList", JSON.stringify(gameList));
     } else {
       const gameList: any = JSON.parse(list);

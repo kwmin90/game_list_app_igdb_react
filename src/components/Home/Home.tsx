@@ -61,7 +61,6 @@ export const Home: React.FC = () => {
     if(!list) {
       queryGames()
       .then(async (res)=>{
-        console.log(res);
         setLoading(true);
         const response = await res;
         setGames(response);
