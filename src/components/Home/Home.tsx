@@ -39,6 +39,16 @@ export const Home: React.FC = () => {
   
 
   useEffect(() => {
+    const getAccessToken = async () => {
+      await fetch(`https://cors-anywhere.herokuapp.com/https://id.twitch.tv/oauth2/token?client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}&grant_type=client_credentials`,
+      {
+        method: "POST"
+      }).then(async (res)=>{
+        const data = await res.json();
+        localStorage.setItem('accessToken', JSON.stringify(data.access_token));
+      })
+    }
+    
     const queryGames = async()=>{
       const token = localStorage.getItem('accessToken')?.slice(1,-1);
       const res = await axios({
@@ -55,31 +65,31 @@ export const Home: React.FC = () => {
     return res.data;
     }
 
-    const list = localStorage.getItem("gameList");
-    const accessToken = localStorage.getItem('accessToken');
-    if(!accessToken) getAccessToken();
-    if(!list) {
-      queryGames()
-      .then(async (res)=>{
-        setLoading(true);
-        const response = await res;
-        setGames(response);
-        setLoading(false);
-      });
-    } else {
-      setGames(JSON.parse(list));
+    const getGames = ()=>{
+      const list = localStorage.getItem("gameList");
+      if(!list) {
+        queryGames()
+        .then(async (res)=>{
+          setLoading(true);
+          const response = await res;
+          setGames(response);
+          setLoading(false);
+        });
+      } else {
+        setGames(JSON.parse(list));
+      }
+    }
+    const accessToken = localStorage.getItem("accessToken");
+    if(!accessToken){
+      getAccessToken()
+        .then(()=>{
+          getGames();
+      })
+    }
+    else{
+      getGames();
     }
   }, [defaultGames]);
-
-  const getAccessToken = () => {
-    fetch(`https://cors-anywhere.herokuapp.com/https://id.twitch.tv/oauth2/token?client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}&grant_type=client_credentials`,
-    {
-      method: "POST"
-    }).then(async (res)=>{
-      const data = await res.json();
-      localStorage.setItem('accessToken', JSON.stringify(data.access_token));
-    })
-  }
 
   const indexOfLastGame = currentPage * gamesPerPage;
   const indexOfFirstGame = indexOfLastGame - gamesPerPage;
