@@ -31,3 +31,12 @@ nav {
 .search-box {
   float: right;
 }
+
+.page-link {
+  background: none !important;
+  border: none;
+  padding: 16px;
+  cursor: pointer;
+  color: white;
+  outline: none;
+}
